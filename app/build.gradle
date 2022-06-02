@@ -51,4 +51,9 @@ dependencies {
     kapt("com.github.moxy-community:moxy-compiler:$rootProject.moxyVersion")
     implementation("com.github.moxy-community:moxy:$rootProject.moxyVersion")
     implementation("com.github.moxy-community:moxy-androidx:$rootProject.moxyVersion")
+
+    // Koin Core features
+    implementation "io.insert-koin:koin-core:$koin_version"
+    testImplementation "io.insert-koin:koin-test:$koin_version"
+    implementation "io.insert-koin:koin-android:$koin_version"
 }
