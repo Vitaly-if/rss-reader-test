@@ -4,8 +4,8 @@ buildscript {
     }
     ext {
         //App dependencies
-
-        moxyVersion = '2.2.2'
+        kotlin_coroutines_version = '1.6.0'
+        moxy_version = '2.2.2'
         koin_version= "3.2.0"
 
     }

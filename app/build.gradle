@@ -48,12 +48,16 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     // Moxy
-    kapt("com.github.moxy-community:moxy-compiler:$rootProject.moxyVersion")
-    implementation("com.github.moxy-community:moxy:$rootProject.moxyVersion")
-    implementation("com.github.moxy-community:moxy-androidx:$rootProject.moxyVersion")
+    kapt("com.github.moxy-community:moxy-compiler:$moxy_version")
+    implementation("com.github.moxy-community:moxy:$moxy_version")
+    implementation("com.github.moxy-community:moxy-androidx:$moxy_version")
 
     // Koin Core features
     implementation "io.insert-koin:koin-core:$koin_version"
     testImplementation "io.insert-koin:koin-test:$koin_version"
     implementation "io.insert-koin:koin-android:$koin_version"
+
+    // Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines_version"
 }
