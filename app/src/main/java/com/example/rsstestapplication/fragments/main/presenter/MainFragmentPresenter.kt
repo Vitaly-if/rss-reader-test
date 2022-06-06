@@ -1,6 +1,7 @@
 package com.example.rsstestapplication.fragments.main.presenter
 
 import androidx.lifecycle.viewModelScope
+import com.example.rsstestapplication.domain.repository.IRssesRepository
 import com.example.rsstestapplication.domain.repository.RssesRepository
 import com.example.rsstestapplication.fragments.main.view.MainView
 import com.example.rsstestapplication.models.ItemRssModel
@@ -18,9 +19,9 @@ class MainFragmentPresenter() : MvpPresenter<MainView>() {
     }
 
     fun loadRsses() {
-        val repository = RssesRepository()
+      // val repository = RssesRepository()
         GlobalScope.launch {
-            repository.refreshRsses()
+          //  repository.refreshRsses()
 
         }
 

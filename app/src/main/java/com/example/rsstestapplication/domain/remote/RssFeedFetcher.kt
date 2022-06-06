@@ -20,7 +20,7 @@ class RssFeedFetcher (val callback: (List<ItemRssDAO>) -> Unit) : AsyncTask<URL,
         connect.connectTimeout = 8000
         connect.requestMethod = "GET"
         connect.connect();
-
+        Log.i(ContentValues.TAG, "connect.connect();")
         val responseCode: Int = connect.responseCode;
         var rssItems: List<ItemRssDAO>? = null
         if (responseCode == 200) {
@@ -42,7 +42,7 @@ class RssFeedFetcher (val callback: (List<ItemRssDAO>) -> Unit) : AsyncTask<URL,
         super.onPostExecute(result)
         if (result != null && !result.isEmpty()) {
             result.forEach{
-                //Log.i(ContentValues.TAG, "${it.titleRss} ссылка картинка ${it.linkImg} cсылка ресурс ${it.linkSource}")
+               // Log.i(ContentValues.TAG, "${it.titleRss} ссылка картинка ${it.linkImg} cсылка ресурс ${it.linkSource}")
                 callback.invoke(result)
             }
            // reference.get()?.updateRV(result)
