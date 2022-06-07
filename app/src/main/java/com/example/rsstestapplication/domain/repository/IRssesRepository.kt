@@ -12,4 +12,10 @@ interface IRssesRepository {
 
         fun onrssNotAvailable()
     }
+
+    fun loadDiffSizeBetweenDatabaseNetwork(callback: LoadDiffSizeCallback)
+    interface LoadDiffSizeCallback {
+
+        fun onDiffSizeLoaded(LoadedDiffSize: Int)
+    }
 }

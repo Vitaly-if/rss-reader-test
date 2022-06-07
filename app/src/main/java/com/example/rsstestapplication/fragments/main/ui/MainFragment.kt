@@ -28,7 +28,6 @@ class MainFragment: MvpAppCompatFragment(), MainView {
     @InjectPresenter
     lateinit var presenter: MainFragmentPresenter
     private lateinit var rssesAdapter: RssesAdapter
-   // lateinit var repository: RssesRepository
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,16 +46,12 @@ class MainFragment: MvpAppCompatFragment(), MainView {
             adapter = rssesAdapter
             layoutManager = linearLayoutManager
         }
-       // val database = activity?.let { getDatabase(it) }
-       // repository = database?.let { RssesRepository(it) }!!
+
     }
     override fun onRssLoaded(rsses: List<ItemRssModel>) {
-        GlobalScope.launch {
-          //  repository.refreshRsses()
-        }
 
         rssesAdapter.rsses = rsses
-        Log.i(ContentValues.TAG, "Загрузка RecyclerView ${rsses[0].titleRss}")
+
     }
 
     override fun openDetailsFragment(itemRssModel: ItemRssModel) {

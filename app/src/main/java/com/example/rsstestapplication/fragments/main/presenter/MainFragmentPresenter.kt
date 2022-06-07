@@ -9,6 +9,7 @@ import com.example.rsstestapplication.domain.database.RssesDatabase
 import com.example.rsstestapplication.domain.repository.IRssesRepository
 import com.example.rsstestapplication.domain.repository.RssesRepository
 
+
 import com.example.rsstestapplication.fragments.main.view.MainView
 import com.example.rsstestapplication.models.ItemRssModel
 import kotlinx.coroutines.*
@@ -32,6 +33,7 @@ class MainFragmentPresenter() : MvpPresenter<MainView>(), KoinComponent {
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         loadRsses()
+        loadDiffSizeRssbetweenDatabaseNetwork()
     }
 
     fun loadRsses() {
@@ -41,7 +43,7 @@ class MainFragmentPresenter() : MvpPresenter<MainView>(), KoinComponent {
             repository.loadRsses(object: IRssesRepository.LoadRssesCallback{
                 override fun onRssLoaded(loadedRssList: List<ItemRssModel>) {
                     loadedRssList.forEach {
-                        Log.i(ContentValues.TAG, "работает калэк с базы ${it.titleRss}")
+                       // Log.i(ContentValues.TAG, "работает калэк с базы ${it.titleRss}")
                     }
                 }
                 override fun onrssNotAvailable() {
@@ -55,7 +57,14 @@ class MainFragmentPresenter() : MvpPresenter<MainView>(), KoinComponent {
         listtestrss.add(testItem)
         viewState.onRssLoaded(listtestrss)
     }
+    fun loadDiffSizeRssbetweenDatabaseNetwork() {
+        repository.loadDiffSizeBetweenDatabaseNetwork(object : IRssesRepository.LoadDiffSizeCallback{
+            override fun onDiffSizeLoaded(LoadedDiffSize: Int) {
+                Log.i(ContentValues.TAG, "Получилось$LoadedDiffSize")
+            }
 
+        })
+    }
     fun showDetails(rss: ItemRssModel) {
         viewState.openDetailsFragment(rss)
     }
