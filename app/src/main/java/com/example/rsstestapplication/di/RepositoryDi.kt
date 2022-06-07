@@ -5,10 +5,7 @@ import org.koin.dsl.module
 
 val repositoryModule = module {
 
-//    single<DataBase> {
-//        getDatabase(context = get())
-//}
- // single<Repository> {
-   //    RssesRepository(Database = get())
-//    }
+  single {
+     RssesRepository(database = get())
+   }
 }

@@ -1,9 +1,9 @@
 package com.example.rsstestapplication.di
 
 import com.example.rsstestapplication.domain.database.getDatabase
+import org.koin.dsl.module
 
-class DataBaseDi {
+val databaseModule = module {
 
-   // single<DataBase> {
-    //getDatabase(context = get())
+   single { getDatabase(context = get()) }
 }
