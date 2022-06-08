@@ -39,12 +39,11 @@ class MainFragmentPresenter() : MvpPresenter<MainView>(), KoinComponent {
     fun loadRsses() {
       // val repository = RssesRepository()
         GlobalScope.launch {
-          repository.refreshRsses()
+          repository.refreshRsses(true)
             repository.loadRsses(object: IRssesRepository.LoadRssesCallback{
                 override fun onRssLoaded(loadedRssList: List<ItemRssModel>) {
-                    loadedRssList.forEach {
-                       // Log.i(ContentValues.TAG, "работает калэк с базы ${it.titleRss}")
-                    }
+
+                    viewState.onRssLoaded(loadedRssList)
                 }
                 override fun onrssNotAvailable() {
                     TODO("Not yet implemented")
@@ -52,10 +51,6 @@ class MainFragmentPresenter() : MvpPresenter<MainView>(), KoinComponent {
             })
         }
 
-        val listtestrss = mutableListOf<ItemRssModel>()
-        val testItem = ItemRssModel("name","10/01", "","","")
-        listtestrss.add(testItem)
-        viewState.onRssLoaded(listtestrss)
     }
     fun loadDiffSizeRssbetweenDatabaseNetwork() {
         repository.loadDiffSizeBetweenDatabaseNetwork(object : IRssesRepository.LoadDiffSizeCallback{

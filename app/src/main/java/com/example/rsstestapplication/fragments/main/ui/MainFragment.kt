@@ -45,7 +45,7 @@ class MainFragment: MvpAppCompatFragment(), MainView {
         }
         val intent = Intent(activity, RssDiffUpdateService::class.java)
 
-        activity?.applicationContext?.startService(intent)
+        //activity?.applicationContext?.startService(intent)
         Log.i(ContentValues.TAG, "Загрузка ostartService $activity")
     }
     override fun onRssLoaded(rsses: List<ItemRssModel>) {

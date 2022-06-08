@@ -30,6 +30,7 @@ class RssesRepository(val database: RssesDatabase) : IRssesRepository {
         val dep = database.rssDao.getRsses()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
+
                 callback.onRssLoaded(it.asDomainModel())
                 sizeDatabase = it.size
                 it.forEach {
@@ -49,7 +50,7 @@ class RssesRepository(val database: RssesDatabase) : IRssesRepository {
     }
 
     @SuppressLint("CheckResult")
-    suspend fun refreshRsses() {
+    suspend fun refreshRsses(ubdateDatabase: Boolean) {
         withContext(Dispatchers.IO) {
 
             RssFeedFetcher(callback = { list ->
@@ -58,14 +59,18 @@ class RssesRepository(val database: RssesDatabase) : IRssesRepository {
                     // Log.i(ContentValues.TAG, "Работает ${it.titleRss}")
                 }
                subjectDiffSize.onNext(list.size - sizeDatabase)
+                if (ubdateDatabase) {
                 GlobalScope.launch {
                     database.rssDao.clearAll()
+                    Log.i(ContentValues.TAG, "Проверка количества вызовов ")
                     database.rssDao.insertAll(*list.asDatabaseModel())
+                }
 
                 }
 
                             }
             ).execute(url)
+
         }
 
     }

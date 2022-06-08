@@ -41,10 +41,10 @@ class RssFeedFetcher (val callback: (List<ItemRssDAO>) -> Unit) : AsyncTask<URL,
     override fun onPostExecute(result: List<ItemRssDAO>?) {
         super.onPostExecute(result)
         if (result != null && !result.isEmpty()) {
-            result.forEach{
+
                 //Log.i(ContentValues.TAG, "${it.titleRss} ссылка картинка ${it.linkImg} cсылка ресурс ${it.linkSource}")
                 callback.invoke(result)
-            }
+
            // reference.get()?.updateRV(result)
         }
 
