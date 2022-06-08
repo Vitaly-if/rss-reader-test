@@ -26,9 +26,6 @@ class RssesRepository(val database: RssesDatabase) : IRssesRepository {
     override fun loadRsses(callback: IRssesRepository.LoadRssesCallback) {
         loadRssesFromNetwork(callback)
     }
-
-
-
     private fun loadRssesFromNetwork(callback: IRssesRepository.LoadRssesCallback) {
         val dep = database.rssDao.getRsses()
             .observeOn(AndroidSchedulers.mainThread())
@@ -60,11 +57,11 @@ class RssesRepository(val database: RssesDatabase) : IRssesRepository {
                 list.forEach {
                     // Log.i(ContentValues.TAG, "Работает ${it.titleRss}")
                 }
-               subjectDiffSize.onNext(2)
+               subjectDiffSize.onNext(list.size - sizeDatabase)
                 GlobalScope.launch {
                     database.rssDao.clearAll()
                     database.rssDao.insertAll(*list.asDatabaseModel())
-                   subjectDiffSize.onNext(3)
+
                 }
 
                             }

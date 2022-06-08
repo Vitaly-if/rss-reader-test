@@ -1,6 +1,7 @@
 package com.example.rsstestapplication.fragments.main.ui
 
 import android.content.ContentValues
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,15 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 import com.example.rsstestapplication.R
-import com.example.rsstestapplication.domain.database.getDatabase
-import com.example.rsstestapplication.domain.repository.IRssesRepository
-import com.example.rsstestapplication.domain.repository.RssesRepository
+import com.example.rsstestapplication.service.RssDiffUpdateService
 import com.example.rsstestapplication.fragments.main.adapters.RssesAdapter
 import com.example.rsstestapplication.fragments.main.presenter.MainFragmentPresenter
 import com.example.rsstestapplication.fragments.main.view.MainView
 import com.example.rsstestapplication.models.ItemRssModel
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import moxy.MvpAppCompatFragment
 import moxy.presenter.InjectPresenter
 
@@ -46,7 +43,10 @@ class MainFragment: MvpAppCompatFragment(), MainView {
             adapter = rssesAdapter
             layoutManager = linearLayoutManager
         }
+        val intent = Intent(activity, RssDiffUpdateService::class.java)
 
+        activity?.applicationContext?.startService(intent)
+        Log.i(ContentValues.TAG, "Загрузка ostartService $activity")
     }
     override fun onRssLoaded(rsses: List<ItemRssModel>) {
 
