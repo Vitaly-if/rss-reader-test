@@ -7,5 +7,16 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.example.rsstestapplication.fragments.main.ui.MainFragment"
-        android:label="MainFragment" />
+        android:label="MainFragment" >
+        <action
+            android:id="@+id/action_mainFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.example.rsstestapplication.fragments.details.ui.DetailFragment"
+        android:label="DetailFragment" >
+        <argument android:name="selectItemRss"
+            app:argType="com.example.rsstestapplication.models.ItemRssModel"/>
+    </fragment>
 </navigation>

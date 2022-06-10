@@ -7,8 +7,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 
 import com.example.rsstestapplication.R
 import com.example.rsstestapplication.service.RssDiffUpdateService
@@ -24,6 +26,7 @@ class MainFragment: MvpAppCompatFragment(), MainView {
 
     @InjectPresenter
     lateinit var presenter: MainFragmentPresenter
+    lateinit var swipeContainer: SwipeRefreshLayout
     private lateinit var rssesAdapter: RssesAdapter
 
     override fun onCreateView(
@@ -43,8 +46,11 @@ class MainFragment: MvpAppCompatFragment(), MainView {
             adapter = rssesAdapter
             layoutManager = linearLayoutManager
         }
+        swipeContainer = view.findViewById(R.id.swipeContainer)
+        swipeContainer.setOnRefreshListener {
+            presenter.updateRss()
+        }
         val intent = Intent(activity, RssDiffUpdateService::class.java)
-
         //activity?.applicationContext?.startService(intent)
         Log.i(ContentValues.TAG, "Загрузка ostartService $activity")
     }
@@ -55,6 +61,8 @@ class MainFragment: MvpAppCompatFragment(), MainView {
     }
 
     override fun openDetailsFragment(itemRssModel: ItemRssModel) {
+        val action = MainFragmentDirections.actionMainFragmentToDetailFragment(itemRssModel)
+        findNavController().navigate(action)
         Log.i(ContentValues.TAG, "Загрузка openDetailsFragment")
     }
 }

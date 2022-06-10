@@ -5,6 +5,7 @@ buildscript {
         maven { url 'https://maven.fabric.io/public' }
         jcenter()
     }
+
     ext {
         //App dependencies
         kotlin_coroutines_version = '1.6.0'
@@ -13,7 +14,10 @@ buildscript {
         room_version = "2.1.0"
 
     }
-
+    dependencies {
+        def nav_version = "2.4.2"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
+    }
 }
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.

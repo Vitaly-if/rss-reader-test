@@ -11,8 +11,6 @@ import java.net.URL
 
 class RssFeedFetcher (val callback: (List<ItemRssDAO>) -> Unit) : AsyncTask<URL, Void, List<ItemRssDAO>>() {
 
-
-    // val reference = WeakReference(context)
     private var stream: InputStream? = null;
     override fun doInBackground(vararg params: URL?): List<ItemRssDAO>? {
         val connect = params[0]?.openConnection() as HttpURLConnection
@@ -25,7 +23,6 @@ class RssFeedFetcher (val callback: (List<ItemRssDAO>) -> Unit) : AsyncTask<URL,
         var rssItems: List<ItemRssDAO>? = null
         if (responseCode == 200) {
             stream = connect.inputStream;
-
 
             try {
                 val parser = RssParser()
@@ -42,10 +39,8 @@ class RssFeedFetcher (val callback: (List<ItemRssDAO>) -> Unit) : AsyncTask<URL,
         super.onPostExecute(result)
         if (result != null && !result.isEmpty()) {
 
-                //Log.i(ContentValues.TAG, "${it.titleRss} ссылка картинка ${it.linkImg} cсылка ресурс ${it.linkSource}")
                 callback.invoke(result)
 
-           // reference.get()?.updateRV(result)
         }
 
     }

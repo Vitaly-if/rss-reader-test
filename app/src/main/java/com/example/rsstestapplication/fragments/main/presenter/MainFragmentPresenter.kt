@@ -28,19 +28,22 @@ import org.koin.java.KoinJavaComponent.inject
 @InjectViewState
 class MainFragmentPresenter() : MvpPresenter<MainView>(), KoinComponent {
 
-    private val repository : RssesRepository = get()
+    private val repository: RssesRepository = get()
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         loadRsses()
         loadDiffSizeRssbetweenDatabaseNetwork()
     }
+    fun updateRss() {
+        loadRsses()
+    }
 
-    fun loadRsses() {
-      // val repository = RssesRepository()
+    private fun loadRsses() {
+
         GlobalScope.launch {
-          repository.refreshRsses(true)
-            repository.loadRsses(object: IRssesRepository.LoadRssesCallback{
+            repository.refreshRsses(true)
+            repository.loadRsses(object : IRssesRepository.LoadRssesCallback {
                 override fun onRssLoaded(loadedRssList: List<ItemRssModel>) {
 
                     viewState.onRssLoaded(loadedRssList)
@@ -50,16 +53,18 @@ class MainFragmentPresenter() : MvpPresenter<MainView>(), KoinComponent {
                 }
             })
         }
-
     }
+
     fun loadDiffSizeRssbetweenDatabaseNetwork() {
-        repository.loadDiffSizeBetweenDatabaseNetwork(object : IRssesRepository.LoadDiffSizeCallback{
+        repository.loadDiffSizeBetweenDatabaseNetwork(object :
+            IRssesRepository.LoadDiffSizeCallback {
             override fun onDiffSizeLoaded(LoadedDiffSize: Int) {
                 Log.i(ContentValues.TAG, "Получилось$LoadedDiffSize")
             }
 
         })
     }
+
     fun showDetails(rss: ItemRssModel) {
         viewState.openDetailsFragment(rss)
     }
