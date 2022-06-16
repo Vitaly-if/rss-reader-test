@@ -14,6 +14,8 @@ interface MainView : MvpView {
     @StateStrategyType(value = SkipStrategy::class)
     fun openDetailsFragment(itemRssModel: ItemRssModel)
 
+    fun showCoutNewRss(diffRss: Int)
+
 
 
 }
