@@ -1,9 +1,7 @@
 package com.example.rsstestapplication.fragments.main.ui
 
-import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,24 +9,23 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-
 import com.example.rsstestapplication.R
 import com.example.rsstestapplication.service.RssDiffUpdateService
 import com.example.rsstestapplication.fragments.main.adapters.RssesAdapter
 import com.example.rsstestapplication.fragments.main.presenter.MainFragmentPresenter
 import com.example.rsstestapplication.fragments.main.view.MainView
 import com.example.rsstestapplication.models.ItemRssModel
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import moxy.MvpAppCompatFragment
 import moxy.presenter.InjectPresenter
 
 
-class MainFragment: MvpAppCompatFragment(), MainView {
+class MainFragment : MvpAppCompatFragment(), MainView {
 
     @InjectPresenter
     lateinit var presenter: MainFragmentPresenter
     lateinit var swipeContainer: SwipeRefreshLayout
-    lateinit var coutNewRss: FloatingActionButton
+    lateinit var coutNewRss: ExtendedFloatingActionButton
     private lateinit var rssesAdapter: RssesAdapter
 
     override fun onCreateView(
@@ -55,9 +52,9 @@ class MainFragment: MvpAppCompatFragment(), MainView {
         }
         coutNewRss = view.findViewById(R.id.diff_rss_fab)
         val intent = Intent(activity, RssDiffUpdateService::class.java)
-
-        Log.i(ContentValues.TAG, "Загрузка ostartService $activity")
+        activity?.startService(intent)
     }
+
     override fun onRssLoaded(rsses: List<ItemRssModel>) {
         rssesAdapter.rsses = rsses
     }
@@ -65,12 +62,12 @@ class MainFragment: MvpAppCompatFragment(), MainView {
     override fun openDetailsFragment(itemRssModel: ItemRssModel) {
         val action = MainFragmentDirections.actionMainFragmentToDetailFragment(itemRssModel)
         findNavController().navigate(action)
-        Log.i(ContentValues.TAG, "Загрузка openDetailsFragment")
     }
 
     override fun showCoutNewRss(diffRss: Int) {
+        coutNewRss.text = diffRss.toString()
         coutNewRss.visibility = View.VISIBLE
-        coutNewRss.setOnClickListener{
+        coutNewRss.setOnClickListener {
             presenter.updateRss()
             coutNewRss.visibility = View.GONE
         }

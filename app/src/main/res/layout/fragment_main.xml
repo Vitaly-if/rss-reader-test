@@ -36,6 +36,7 @@
         android:layout_margin="16dp"
         android:backgroundTint="@color/purple_500"
         android:text="text"
+        android:gravity="center"
         android:textColor="#F6F5F5"
         app:icon="@drawable/ic_baseline_update_24"
         app:iconTint="#F4F4F4"

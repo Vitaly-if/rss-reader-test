@@ -1,20 +1,16 @@
 package com.example.rsstestapplication.domain.repository
 
 import android.annotation.SuppressLint
-import android.content.ContentValues
-import android.util.Log
 import com.example.rsstestapplication.domain.database.RssesDatabase
 import com.example.rsstestapplication.domain.database.asDomainModel
 import com.example.rsstestapplication.domain.remote.RssFeedFetcher
 import com.example.rsstestapplication.domain.remote.asDatabaseModel
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.reactivestreams.Subscriber
 import java.net.URL
 
 class RssesRepository(val database: RssesDatabase) : IRssesRepository {
@@ -26,6 +22,7 @@ class RssesRepository(val database: RssesDatabase) : IRssesRepository {
     override fun loadRsses(callback: IRssesRepository.LoadRssesCallback) {
         loadRssesFromNetwork(callback)
     }
+
     private fun loadRssesFromNetwork(callback: IRssesRepository.LoadRssesCallback) {
         val dep = database.rssDao.getRsses()
             .observeOn(AndroidSchedulers.mainThread())
@@ -34,46 +31,44 @@ class RssesRepository(val database: RssesDatabase) : IRssesRepository {
                 callback.onRssLoaded(it.asDomainModel())
                 sizeDatabase = it.size
                 it.forEach {
-                    // Log.i(ContentValues.TAG, "c базы данных ${it.titleRss}")
                 }
             }
 
     }
+
     override fun loadDiffSizeBetweenDatabaseNetwork(callback: IRssesRepository.LoadDiffSizeCallback) {
         loadDiffSize(callback)
     }
-    fun loadDiffSize(callback: IRssesRepository.LoadDiffSizeCallback) {
-       val dep = subjectDiffSize.subscribe {
-           callback.onDiffSizeLoaded(it)
-       }
 
+    fun loadDiffSize(callback: IRssesRepository.LoadDiffSizeCallback) {
+        val dep = subjectDiffSize.subscribe {
+            callback.onDiffSizeLoaded(it)
+        }
     }
 
     @SuppressLint("CheckResult")
-    suspend fun refreshRsses(ubdateDatabase: Boolean) {
+    suspend fun refreshRsses(updateDatabase: Boolean) {
+
+
         withContext(Dispatchers.IO) {
 
             RssFeedFetcher(callback = { list ->
-                //changeRss = list.size - sizeDatabase
                 list.forEach {
-                    // Log.i(ContentValues.TAG, "Работает ${it.titleRss}")
                 }
-               subjectDiffSize.onNext(list.size - sizeDatabase)
-                if (ubdateDatabase) {
-                GlobalScope.launch {
-                    database.rssDao.clearAll()
-                    Log.i(ContentValues.TAG, "Проверка количества вызовов ")
-                    database.rssDao.insertAll(*list.asDatabaseModel())
-                }
+                if (updateDatabase) {
+                    GlobalScope.launch {
+                        database.rssDao.clearAll()
+                        database.rssDao.insertAll(*list.asDatabaseModel())
+                    }
 
+                } else {
+                    subjectDiffSize.onNext(list.size - sizeDatabase)
                 }
-
-                            }
+            }
             ).execute(url)
 
         }
 
     }
-
 
 }

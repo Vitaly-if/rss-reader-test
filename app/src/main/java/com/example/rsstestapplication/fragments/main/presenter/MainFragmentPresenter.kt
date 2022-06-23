@@ -26,7 +26,7 @@ import org.koin.java.KoinJavaComponent.inject
 
 
 @InjectViewState
-class MainFragmentPresenter() : MvpPresenter<MainView>(), KoinComponent {
+class MainFragmentPresenter : MvpPresenter<MainView>(), KoinComponent {
 
     private val repository: RssesRepository = get()
 
@@ -35,6 +35,7 @@ class MainFragmentPresenter() : MvpPresenter<MainView>(), KoinComponent {
         loadRsses()
         loadDiffSizeRssbetweenDatabaseNetwork()
     }
+
     fun updateRss() {
         loadRsses()
     }
@@ -48,6 +49,7 @@ class MainFragmentPresenter() : MvpPresenter<MainView>(), KoinComponent {
 
                     viewState.onRssLoaded(loadedRssList)
                 }
+
                 override fun onrssNotAvailable() {
                     TODO("Not yet implemented")
                 }
@@ -59,7 +61,7 @@ class MainFragmentPresenter() : MvpPresenter<MainView>(), KoinComponent {
         repository.loadDiffSizeBetweenDatabaseNetwork(object :
             IRssesRepository.LoadDiffSizeCallback {
             override fun onDiffSizeLoaded(LoadedDiffSize: Int) {
-                Log.i(ContentValues.TAG, "Получилось$LoadedDiffSize")
+                viewState.showCoutNewRss(LoadedDiffSize)
             }
 
         })
